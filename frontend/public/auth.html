@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Authentication | AI Theme</title>
+    <link rel="stylesheet" href="../src/assets/styles/auth.css" />
+    <link rel="stylesheet" href="../src/assets/styles/header.css">
+    <style>
+    /* Base Styles */
+/* CSS Variables in :root */
+:root {
+  --dark-bg: #121212;
+  --dark-secondary: #1e1e1e;
+  --blue-accent: #2962ff;
+  --blue-accent-light: #768fff;
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+}
+
+/* Base Styles */
+  </style>
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <nav>
+                <a href="#" class="logo">
+                    <span class="logo-text">JOKO</span>
+                </a>
+            </nav>
+        </div>
+    </header>
+    <div class="container" id="authContainer">
+        <!-- Sign In Form -->
+        <div class="form-container signin-container">
+        <h2>Masuk ke Akun</h2>
+        <form id="signinForm">
+            <input type="text" id="username" placeholder="Username" required />
+            <input type="password" id="password" placeholder="Password" required />
+            <button type="submit">Masuk Sekarang</button>
+        </form>
+        <p class="auth-cta">
+            Baru di sini? <a href="#" id="signupLink">Bergabung Sekarang →</a>
+        </p>
+        </div>
+
+        <!-- Sign Up Form -->
+        <div class="form-container signup-container">
+        <h2>Daftar Akun Baru</h2>
+        <form id="signupForm">
+            <input type="text" id="name" placeholder="Full Name" required />
+            <input type="text" id="signupUsername" placeholder="Username" required />
+            <input type="password" id="signupPassword" placeholder="Password" required />
+            <input type="password" id="confirmPassword" placeholder="Confirm Password" required />
+            <button type="submit">Daftar</button>
+        </form>
+        <p class="auth-cta">
+            Sudah Daftar? <a href="#" id="signinLink">Masuk & Pegang Kendali →</a>
+        </p>
+        </div>
+
+        <!-- Overlay -->
+        <div class="overlay-container">
+        <div class="overlay">
+            <div class="overlay-panel overlay-left">
+            <h2>Selamat Datang Kembali!</h2>
+            <p>Masuk untuk tetap terhubung dan lanjutkan perjalananmu</p>
+            <button class="ghost" id="signInBtn">Masuk</button>
+            </div>
+            <div class="overlay-panel overlay-right">
+            <h2>Hi, Sobat!</h2>
+            <p>Daftarkan dirimu dan mulai petualangan barumu bersama kami</p>
+            <button class="ghost" id="signUpBtn">Daftar</button>
+            </div>
+        </div>
+        </div>
+
+        <!-- Enhanced Wave Animation with better SVG -->
+        <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+        viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <!-- <defs>
+            <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs> -->
+        <g class="parallax">
+            <use xlink:href="#gentle-wave" x="48" y="0" />
+            <use xlink:href="#gentle-wave" x="48" y="3" />
+            <use xlink:href="#gentle-wave" x="48" y="5" />
+            <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+        </svg>
+    </div>
+
+    <div id="toastContainer"></div>
+
+    <div id="particles-js"></div>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script> -->
+
+  <script type="module" src="../src/assets/js/auth.js"></script>
+</body>
+</html>

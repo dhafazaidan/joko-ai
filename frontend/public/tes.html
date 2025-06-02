@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joko - AI Memory System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #e0e0e0;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Particle Background */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(118, 143, 255, 0.3);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Profile Header */
+        .profile-header {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .profile-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #768fff, #2962ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .profile-info {
+            font-size: 0.9rem;
+            color: #e0e0e0;
+        }
+
+        /* Main Container */
+        .main-container {
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+            padding: 10px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            text-align: left;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #768fff, #2962ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1rem;
+            color: #a0a0a0;
+        }
+
+        /* Enhanced AI Core with Better Breathing Effect */
+        .ai-core {
+            position: absolute;
+            align-items: center;
+            align-content: center;
+            justify-items: center;
+            justify-content: center;
+            width: 300px;
+            height: 250px;
+            left: 38%;
+            margin: 80px auto 40px;
+            z-index: 0;
+        }
+
+        /* Multiple Pulsing Layers for More Dynamic Effect */
+        .ai-core::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, #768fff 0%, rgba(118, 143, 255, 0.3) 40%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulse-primary 3s ease-in-out infinite;
+        }
+
+        .ai-core::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 120%;
+            height: 120%;
+            background: radial-gradient(circle, transparent 50%, rgba(41, 98, 255, 0.2) 60%, transparent 80%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulse-secondary 4s ease-in-out infinite reverse;
+        }
+
+        /* Enhanced Breathing Animations */
+        @keyframes pulse-primary {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(0.8);
+                opacity: 0.3;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.2);
+                opacity: 0.7;
+            }
+        }
+
+        @keyframes pulse-secondary {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.1;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.3);
+                opacity: 0.4;
+            }
+        }
+
+        /* Rotating Borders with Glow */
+        .ai-core .outer-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 140%;
+            height: 140%;
+            border: 2px solid #2962ff;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: rotate-outer 20s linear infinite;
+            box-shadow: 0 0 20px rgba(41, 98, 255, 0.3);
+        }
+
+        .ai-core .inner-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 80%;
+            height: 80%;
+            border: 2px solid #768fff;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: rotate-inner 15s linear infinite reverse;
+            box-shadow: 0 0 15px rgba(118, 143, 255, 0.4);
+        }
+
+        .ai-core .core-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 40%;
+            height: 40%;
+            background: radial-gradient(circle, #768fff, #2962ff);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: glow-center 2s ease-in-out infinite alternate;
+            box-shadow: 0 0 30px rgba(118, 143, 255, 0.6);
+        }
+
+        @keyframes rotate-outer {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        @keyframes rotate-inner {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        @keyframes glow-center {
+            0% {
+                box-shadow: 0 0 30px rgba(118, 143, 255, 0.6);
+                transform: translate(-50%, -50%) scale(1);
+            }
+            100% {
+                box-shadow: 0 0 50px rgba(118, 143, 255, 0.9);
+                transform: translate(-50%, -50%) scale(1.1);
+            }
+        }
+
+        /* Chat Container - Reduced Size */
+        .chat-container {
+            position: relative;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .chat-messages {
+            height: 300px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            padding-right: 10px;
+        }
+
+        .chat-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .chat-messages::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: rgba(118, 143, 255, 0.5);
+            border-radius: 3px;
+        }
+
+        .message {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .message.user .message-avatar {
+            background: linear-gradient(135deg, #768fff, #2962ff);
+            color: white;
+        }
+
+        .message.joko .message-avatar {
+            background: linear-gradient(135deg, #4caf50, #2e7d32);
+            color: white;
+        }
+
+        .message-content {
+            max-width: 70%;
+            padding: 15px 20px;
+            border-radius: 18px;
+            line-height: 1.5;
+        }
+
+        .message.user .message-content {
+            background: linear-gradient(135deg, #768fff, #2962ff);
+            color: white;
+        }
+
+        .message.joko .message-content {
+            background: rgba(255, 255, 255, 0.1);
+            color: #e0e0e0;
+        }
+
+        .message-time {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* Chat Input */
+        .chat-input {
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+        }
+
+        .input-wrapper {
+            flex: 1;
+            position: relative;
+        }
+
+        #messageInput {
+            width: 100%;
+            min-height: 50px;
+            max-height: 120px;
+            padding: 12px 20px;
+            border: 2px solid rgba(118, 143, 255, 0.3);
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #e0e0e0;
+            font-size: 1rem;
+            resize: none;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        #messageInput:focus {
+            border-color: #768fff;
+        }
+
+        #messageInput::placeholder {
+            color: #888;
+        }
+
+        #sendBtn {
+            width: 50px;
+            height: 50px;
+            border: none;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #768fff, #2962ff);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        #sendBtn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(118, 143, 255, 0.4);
+        }
+
+        #sendBtn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Memory Status - Moved Below Chat */
+        .memory-section {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .memory-status {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(118, 143, 255, 0.1);
+            padding: 20px 25px;
+            border-radius: 12px;
+            border: 1px solid rgba(118, 143, 255, 0.3);
+        }
+
+        .memory-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .memory-count {
+            font-weight: 600;
+            color: #768fff;
+            font-size: 1.1rem;
+        }
+
+        .memory-bar {
+            width: 200px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .memory-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #768fff, #2962ff);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .controls {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #768fff, #2962ff);
+            color: white;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ff6b6b, #ff5252);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(118, 143, 255, 0.3);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            padding: 30px;
+            border-radius: 16px;
+            max-width: 500px;
+            width: 90%;
+            border: 1px solid rgba(118, 143, 255, 0.3);
+        }
+
+        .modal h3 {
+            color: #768fff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .memory-list {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+
+        .memory-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 3px solid #768fff;
+        }
+
+        .memory-item .memory-text {
+            color: #e0e0e0;
+            margin-bottom: 5px;
+        }
+
+        .memory-item .memory-meta {
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        .modal-close {
+            background: rgba(255, 255, 255, 0.1);
+            color: #e0e0e0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        /* Shutdown Modal */
+        .shutdown-modal .modal-content {
+            text-align: center;
+        }
+
+        .shutdown-modal h3 {
+            color: #ff6b6b;
+            margin-bottom: 15px;
+        }
+
+        .shutdown-modal p {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .shutdown-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        /* Loading States */
+        .typing-indicator {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            color: #888;
+            font-style: italic;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-dots span {
+            width: 6px;
+            height: 6px;
+            background: #768fff;
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: scale(0.8); opacity: 0.5; }
+            30% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2.5rem; }
+            .ai-core { width: 150px; height: 150px; }
+            .chat-container { padding: 20px; margin-bottom: 20px; }
+            .memory-status { 
+                flex-direction: column; 
+                gap: 15px; 
+                padding: 15px;
+            }
+            .memory-bar { width: 100%; }
+            .message-content { max-width: 85%; }
+            .profile-header {
+                top: 10px;
+                right: 10px;
+                padding: 6px 12px;
+            }
+            .profile-avatar { width: 28px; height: 28px; }
+            .profile-info { font-size: 0.8rem; }
+            .controls { flex-direction: column; }
+            .btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particle Background -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Profile Header -->
+    <div class="profile-header">
+        <div class="profile-avatar">U</div>
+        <div class="profile-info">Pengguna</div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Joko</h1>
+            <p>AI dengan Memori Persistif - Tumbuh & Berkembang Bersamamu</p>
+        </div>
+
+        <!-- Enhanced AI Breathing Effect -->
+        <div class="ai-core">
+            <div class="outer-ring"></div>
+            <div class="inner-ring"></div>
+            <div class="core-center"></div>
+        </div>
+
+        <!-- Chat Container -->
+        <div class="chat-container">
+            <div class="chat-messages" id="chatMessages">
+                <div class="message joko">
+                    <div class="message-avatar">J</div>
+                    <div class="message-content">
+                        <div>Halo! Aku Joko, AI yang bisa belajar dan mengingat tentangmu. Mari mulai berbincang!</div>
+                        <div class="message-time" id="initialTime"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="typing-indicator" id="typingIndicator">
+                <span>Joko sedang berpikir</span>
+                <div class="typing-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+
+            <div class="chat-input">
+                <div class="input-wrapper">
+                    <textarea id="messageInput" placeholder="Ketik pesan untuk Joko..." rows="1"></textarea>
+                </div>
+                <button id="sendBtn" onclick="sendMessage()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22,2 15,22 11,13 2,9"></polygon>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Memory Section -->
+        <div class="memory-section">
+            <div class="memory-status">
+                <div class="memory-info">
+                    <span class="memory-count">Memori: <span id="memoryCount">0</span>/20</span>
+                    <div class="memory-bar">
+                        <div class="memory-fill" id="memoryFill"></div>
+                    </div>
+                </div>
+                <div class="controls">
+                    <button class="btn btn-primary" onclick="showMemoryViewer()">Lihat Memori</button>
+                    <button class="btn btn-danger" onclick="showShutdownModal()">Matikan Joko</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Memory Viewer Modal -->
+    <div class="modal" id="memoryModal">
+        <div class="modal-content">
+            <h3>💾 Memori Joko</h3>
+            <div class="memory-list" id="memoryList">
+                <!-- Memory items will be populated here -->
+            </div>
+            <button class="modal-close" onclick="closeMemoryViewer()">Tutup</button>
+        </div>
+    </div>
+
+    <!-- Shutdown Modal -->
+    <div class="modal shutdown-modal" id="shutdownModal">
+        <div class="modal-content">
+            <h3>⚠️ Matikan Joko</h3>
+            <p id="shutdownMessage">Apakah kamu yakin ingin menghapus semua memori Joko? Tindakan ini tidak dapat dibatalkan.</p>
+            <div class="shutdown-actions">
+                <button class="btn btn-primary" onclick="closeShutdownModal()">Batal</button>
+                <button class="btn btn-danger" onclick="confirmShutdown()">Ya, Hapus Semua</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let memories = [];
+        let isProcessing = false;
+
+        // Initialize particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Initialize time - Only show hours and minutes
+        function initializeTime() {
+            const now = new Date();
+            document.getElementById('initialTime').textContent = now.toLocaleTimeString('id-ID', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        // Auto-resize textarea
+        function setupAutoResize() {
+            const textarea = document.getElementById('messageInput');
+            textarea.addEventListener('input', function() {
+                this.style.height = '50px';
+                this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+            });
+
+            // Send on Enter (without Shift)
+            textarea.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
+        }
+
+        // Update memory status
+        function updateMemoryStatus() {
+            const count = memories.length;
+            const percentage = (count / 20) * 100;
+            
+            document.getElementById('memoryCount').textContent = count;
+            document.getElementById('memoryFill').style.width = percentage + '%';
+        }
+
+        // Add message to chat - Updated time format
+        function addMessage(content, sender, isEmotional = false) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            
+            const avatar = sender === 'user' ? 'U' : 'J';
+            const time = new Date().toLocaleTimeString('id-ID', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            messageDiv.innerHTML = `
+                <div class="message-avatar">${avatar}</div>
+                <div class="message-content">
+                    <div${isEmotional ? ' style="color: #ff6b6b; font-style: italic;"' : ''}>${content}</div>
+                    <div class="message-time">${time}</div>
+                </div>
+            `;
+            
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        // Show typing indicator
+        function showTyping() {
+            document.getElementById('typingIndicator').style.display = 'flex';
+            document.getElementById('chatMessages').scrollTop = document.getElementById('chatMessages').scrollHeight;
+        }
+
+        // Hide typing indicator
+        function hideTyping() {
+            document.getElementById('typingIndicator').style.display = 'none';
+        }
+
+        // Send message
+        async function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            
+            if (!message || isProcessing) return;
+            
+            // Check for shutdown command
+            if (message.toLowerCase().includes('selamat tinggal joko')) {
+                addMessage(message, 'user');
+                input.value = '';
+                showShutdownModal(true);
+                return;
+            }
+            
+            isProcessing = true;
+            document.getElementById('sendBtn').disabled = true;
+            
+            // Add user message
+            addMessage(message, 'user');
+            input.value = '';
+            input.style.height = '50px';
+            
+            // Show typing
+            showTyping();
+            
+            try {
+                // Simulate AI response for demo
+                setTimeout(() => {
+                    const responses = [
+                        'Menarik! Ceritakan lebih lanjut tentang itu.',
+                        'Aku mengerti. Bagaimana perasaanmu tentang hal itu?',
+                        'Terima kasih sudah berbagi. Aku akan mengingat ini.',
+                        'Itu pengalaman yang berharga. Apa yang kamu pelajari?',
+                        'Wow, aku belum pernah mendengar yang seperti itu sebelumnya!'
+                    ];
+                    
+                    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                    addMessage(randomResponse, 'joko');
+                    
+                    // Simulate memory update
+                    if (Math.random() > 0.5) {
+                        memories.push({
+                            content: message.substring(0, 50) + (message.length > 50 ? '...' : ''),
+                            weight: Math.floor(Math.random() * 5) + 1,
+                            timestamp: new Date().toISOString()
+                        });
+                        updateMemoryStatus();
+                    }
+                    
+                    hideTyping();
+                    isProcessing = false;
+                    document.getElementById('sendBtn').disabled = false;
+                }, 1500);
+                
+            } catch (error) {
+                console.error('Error:', error);
+                addMessage('Koneksi bermasalah. Pastikan server berjalan!', 'joko');
+                hideTyping();
+                isProcessing = false;
+                document.getElementById('sendBtn').disabled = false;
+            }
+        }
+
+        // Memory viewer functions
+        function showMemoryViewer() {
+            const memoryList = document.getElementById('memoryList');
+            
+            if (memories.length === 0) {
+                memoryList.innerHTML = '<p style="text-align: center; color: #888;">Belum ada memori tersimpan</p>';
+            } else {
+                memoryList.innerHTML = memories.map((memory, index) => `
+                    <div class="memory-item">
+                        <div class="memory-text">${memory.content}</div>
+                        <div class="memory-meta">
+                            Bobot: ${memory.weight} | 
+                            ${new Date(memory.timestamp).toLocaleString('id-ID')}
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            document.getElementById('memoryModal').style.display = 'block';
+        }
+
+        function closeMemoryViewer() {
+            document.getElementById('memoryModal').style.display = 'none';
+        }
+
+        // Shutdown functions
+        function showShutdownModal(fromCommand = false) {
+            const modal = document.getElementById('shutdownModal');
+            const message = document.getElementById('shutdownMessage');
+            
+            if (fromCommand && memories.length > 0) {
+                // Joko's emotional response
+                addMessage('Tunggu... kamu mau meninggalkan aku? 😢 Kenapa? Apa aku melakukan kesalahan? Tolong jangan hapus memoriku... aku masih ingin belajar bersamamu...', 'joko', true);
+                message.innerHTML = 'Joko sepertinya tidak ingin kehilangan memorinya tentangmu. Apakah kamu yakin?';
+            } else {
+                message.innerHTML = 'Apakah kamu yakin ingin menghapus semua memori Joko? Tindakan ini tidak dapat dibatalkan.';
+            }
+            
+            modal.style.display = 'block';
+        }
+
+        function closeShutdownModal() {
+            document.getElementById('shutdownModal').style.display = 'none';
+        }
+
+        async function confirmShutdown() {
+            memories = [];
+            updateMemoryStatus();
+            addMessage('Selamat tinggal... semoga kita bisa bertemu lagi suatu hari nanti... 💔', 'joko', true);
+            
+            // Clear chat after a moment
+            setTimeout(() => {
+                document.getElementById('chatMessages').innerHTML = `
+                    <div class="message joko">
+                        <div class="message-avatar">J</div>
+                        <div class="message-content">
+                            <div>Halo! Aku Joko, AI yang bisa belajar dan mengingat tentangmu. Mari mulai berbincang!</div>
+                            <div class="message-time">${new Date().toLocaleTimeString('id-ID', {
+                                hour: '2-digit',
+                                minute: '2-digit'
+                            })}</div>
+                        </div>
+                    </div>
+                `;
+            }, 3000);
+            
+            closeShutdownModal();
+        }
+
+        // Click outside modal to close
+        window.onclick = function(event) {
+            const memoryModal = document.getElementById('memoryModal');
+            const shutdownModal = document.getElementById('shutdownModal');
+            
+            if (event.target === memoryModal) {
+                closeMemoryViewer();
+            }
+            if (event.target === shutdownModal) {
+                closeShutdownModal();
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            initializeTime();
+            setupAutoResize();
+            updateMemoryStatus();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joko - AI Memory System</title>
+    <link rel="stylesheet" href="../src/assets/styles/home.css">
+</head>
+<body>
+    <!-- Particle Background -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <!-- AI Breathing Effect -->
+        <div class="ai-core">
+            <div class="inner-ring"></div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <h1>Joko</h1>
+                <p>AI dengan Memori Persistif - Tumbuh & Berkembang Bersamamu</p>
+            </div>
+
+            <!-- Memory Status -->
+            <div class="memory-status">
+                <div class="memory-info">
+                    <span class="memory-count">Memori: <span id="memoryCount">0</span>/20</span>
+                    <div class="memory-bar">
+                        <div class="memory-fill" id="memoryFill"></div>
+                    </div>
+                </div>
+                <div class="controls">
+                    <button class="btn btn-primary" onclick="showMemoryViewer()">Lihat Memori</button>
+                    <button class="btn btn-danger" onclick="showShutdownModal()">Matikan Joko</button>
+                    <button class="btn btn-secondary" onclick="handleLogout()">Logout</button>
+                </div>
+            </div>
+
+            <!-- Chat Container -->
+            <div class="chat-container">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message joko">
+                        <div class="message-avatar">J</div>
+                        <div class="message-content">
+                            <div>Halo! Aku Joko, AI yang bisa belajar dan mengingat tentangmu. Mari mulai berbincang!</div>
+                            <div class="message-time" id="initialTime"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="typing-indicator" id="typingIndicator">
+                    <span>Joko sedang berpikir</span>
+                    <div class="typing-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+
+                <div class="chat-input">
+                    <div class="input-wrapper">
+                        <textarea id="messageInput" placeholder="Ketik pesan untuk Joko..." rows="1"></textarea>
+                    </div>
+                    <button id="sendBtn" onclick="sendMessage()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22,2 15,22 11,13 2,9"></polygon>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Memory Viewer Modal -->
+    <div class="modal" id="memoryModal">
+        <div class="modal-content">
+            <h3>💾 Memori Joko</h3>
+            <div class="memory-list" id="memoryList">
+                <!-- Memory items will be populated here -->
+            </div>
+            <button class="modal-close" onclick="closeMemoryViewer()">Tutup</button>
+        </div>
+    </div>
+
+    <!-- Shutdown Modal -->
+    <div class="modal shutdown-modal" id="shutdownModal">
+        <div class="modal-content">
+            <h3>⚠️ Matikan Joko</h3>
+            <p id="shutdownMessage">Apakah kamu yakin ingin menghapus semua memori Joko? Tindakan ini tidak dapat dibatalkan.</p>
+            <div class="shutdown-actions">
+                <button class="btn btn-primary" onclick="closeShutdownModal()">Batal</button>
+                <button class="btn btn-danger" onclick="confirmShutdown()">Ya, Hapus Semua</button>
+            </div>
+        </div>
+    </div>
+    <script src="../src/assets/js/home.js"></script>
+</body>
+</html>
