@@ -1,8 +1,8 @@
 # JOKO - AI Assistant
 
-![Last Commit](https://img.shields.io/github/last-commit/username/joko-ai-assistant?style=flat-square)  
-![License](https://img.shields.io/github/license/username/joko-ai-assistant?style=flat-square)  
-![Build](https://img.shields.io/github/actions/workflow/status/username/joko-ai-assistant/build.yml?style=flat-square)  
+![Last Commit](https://img.shields.io/github/last-commit/zaidanahnaf/joko-ai?style=flat-square)  
+![License](https://img.shields.io/github/license/zaidanahnaf/joko-ai?style=flat-square)  
+![Build](https://img.shields.io/github/actions/workflow/status/zaidanahnaf/joko-ai/build.yml?style=flat-square)  
 
 ---
 
