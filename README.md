@@ -2,7 +2,6 @@
 
 ![Last Commit](https://img.shields.io/github/last-commit/zaidanahnaf/joko-ai?style=flat-square)  
 ![License](https://img.shields.io/github/license/zaidanahnaf/joko-ai?style=flat-square)  
-![Build](https://img.shields.io/github/actions/workflow/status/zaidanahnaf/joko-ai/build.yml?style=flat-square)  
 
 ---
 
