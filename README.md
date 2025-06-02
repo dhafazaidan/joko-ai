@@ -37,10 +37,10 @@ Berdiskusi, bertanya, dan berbagi dengan JOKO kapan saja — kapan pun Anda butu
 
 1. Clone repository ini:  
    ```bash
-   git clone https://github.com/username/joko-ai-assistant.git
+   git clone https://github.com/zaidanahnaf/joko-ai.git
 2. Masuk ke direktori proyek:
    ```bash
-   cd joko-ai-assistant
+   cd joko-ai
 3. Install dependencies dengan yarn dan composer:
    ```bash
    yarn install
